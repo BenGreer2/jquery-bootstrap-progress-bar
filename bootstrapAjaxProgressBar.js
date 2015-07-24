@@ -259,7 +259,7 @@
 				newValue = 0;
 			}
 			
-			return Math.min( this.max, Math.max( this.min, newValue ) );
+			return Math.min( this.options.max, Math.max( this.min, newValue ) );
 		},
 		
 		_setOptions: function( options ) {
@@ -277,6 +277,7 @@
 			if ( key === 'max' ) {
 				// Don't allow a max less than min
 				value = Math.max( this.min, value );
+				this.options.max = value;
 			}
 			
 			if ( key === 'disabled' ) {

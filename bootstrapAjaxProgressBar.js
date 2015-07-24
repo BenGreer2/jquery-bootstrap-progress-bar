@@ -230,7 +230,9 @@
 		
 		_destroy: function() {
 			clearInterval(this.interval);
-			this.progressBarEl.remove();
+			if(this.progressBarEl) {
+				this.progressBarEl.remove();
+			}
 		},
 		
 		/**

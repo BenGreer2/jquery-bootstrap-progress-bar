@@ -21,7 +21,7 @@
 			* Current progress value
 			* @type {number}
 			*/
-			currValue : 0,
+			value : 0,
 			
 			/**
 			* URL to perform GET requests on and expects to receive an object containing the status of the progressRequest
@@ -132,7 +132,7 @@
 		min: 0,
 		
 		/*
-		* The previous value of self.options.currValue
+		* The previous value of self.options.value
 		*/
 		oldValue: null,
 		
@@ -185,7 +185,7 @@
 				return false;
 			}
 			
-			this.oldValue = this.options.currValue = this._constrainedValue();
+			this.oldValue = this.options.value = this._constrainedValue();
 			
 			//create elements
 			this.progressBarEl = $('<div class="progress-bar text-center nowrap" role="progressbar" data-fail-count="0" aria-valuenow="0" aria-valuemin="0" aria-valuemax="0" style="width: 0%;"></div>').appendTo(this.element);
@@ -194,7 +194,7 @@
 			this.progressBarEl.append('<span class="spacer"> </span>');
 			
 			this.progressStepsEl = $('<span class="progress-steps"></span> ').appendTo(this.progressBarEl);
-			this.valueEl = $('<span class="curr-step">' + this.options.currValue + '</span>').appendTo(this.progressStepsEl);
+			this.valueEl = $('<span class="curr-step">' + this.options.value + '</span>').appendTo(this.progressStepsEl);
 			this.progressStepsEl.append('/');
 			this.maxEl = $('<span class="steps">' + this.options.max + '</span></span>').appendTo(this.progressStepsEl);
 			this.progressBarEl.append('<span class="spacer"> </span>');
@@ -238,10 +238,10 @@
 		 */
 		value: function( newValue ) {
 			if ( newValue === undefined ) {
-				return this.options.currValue;
+				return this.options.value;
 			}
 			
-			this.options.currValue = this._constrainedValue( newValue );
+			this.options.value = this._constrainedValue( newValue );
 			this._refreshValue();
 		},
 		
@@ -251,7 +251,7 @@
 		 */
 		_constrainedValue: function( newValue ) {
 			if ( newValue === undefined ) {
-				newValue = this.options.currValue;
+				newValue = this.options.value;
 			}
 			
 			// sanitize value
@@ -264,12 +264,12 @@
 		
 		_setOptions: function( options ) {
 			// Ensure "value" option is set after other values (like max)
-			var value = this.options.currValue;
-			delete this.options.currValue;
+			var value = this.options.value;
+			delete this.options.value;
 			
 			this._super( options );
 			
-			this.options.currValue = this._constrainedValue( value );
+			this.options.value = this._constrainedValue( value );
 			this._refreshValue();
 		},
 		
@@ -363,17 +363,17 @@
     	},
     
       /**
-       * Calculates the percentage complete by using this.options.currValue, min, and this.options.max
+       * Calculates the percentage complete by using this.options.value, min, and this.options.max
        */
     	_percentage: function() {
-    		return 100 * ( this.options.currValue - this.min ) / ( this.options.max - this.min );
+    		return 100 * ( this.options.value - this.min ) / ( this.options.max - this.min );
     	},
     
     	_refreshValue: function() {
     		
-    		console.debug('refreshValue() this.options.currValue=' + this.options.currValue);
+    		console.debug('refreshValue() this.options.value=' + this.options.value);
     		
-    		var value = this.options.currValue,
+    		var value = this.options.value,
     			percentage = this._percentage(),
     			percentageStr = percentage.toFixed(0) + '%';
     

@@ -370,7 +370,7 @@
     
     	_refreshValue: function() {
     		
-    		console.debug('refreshValue() this.options.value=' + this.options.value + ', this.value=' + this.value + ', this.currValue=' + this.currValue);
+    		console.debug('refreshValue() this.options.value=' + this.options.value);
     		
     		var value = this.options.value,
     			percentage = this._percentage(),

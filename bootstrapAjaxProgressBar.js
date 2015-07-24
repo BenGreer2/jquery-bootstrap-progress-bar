@@ -9,8 +9,8 @@
 ;(function ( $, window, document, undefined ) {
 'use strict';
 
-    $.widget( 'ui.bootstrapAjaxProgressBar' , {
-    	options: {
+	$.widget( 'ui.bootstrapAjaxProgressBar' , {
+		options: {
 			/**
 			* URL to perform GET requests on and expects to receive an object containing the status of the progressRequest
 			* @type {[type]}
@@ -139,6 +139,11 @@
 		interval : null, //the interval object, so it can be stopped later
 
 		_create: function() {
+			if(!this.options.progressRequestUrl) {
+				console.error("Bootstrap Ajax Progress Bar requires progressRequestUrl");
+				this._destroy();
+				return false;
+			}
 			// Constrain initial value
 			this.oldValue = this.currValue = this._constrainedValue();
 			
@@ -204,7 +209,7 @@
 		 * Contstrains newValue within rules of progress value.
 		 * newValue must be a number between min and max
 		 */
-		_constrainValue: function( newValue ) {
+		_constrainedValue: function( newValue ) {
 			if ( newValue === undefined ) {
 				newValue = this.currValue;
 			}

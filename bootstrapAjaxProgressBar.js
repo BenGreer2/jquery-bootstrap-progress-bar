@@ -311,7 +311,7 @@
     				}
     			},
     			success : function(data, responseStatus) {
-    				console.log('Request to \'' + self.options.progressRequestUrl + '\' was successfull with status ' + responseStatus);
+    				console.log('Request to \'' + self.options.progressRequestUrl + '\' was successfull with status ' + responseStatus, data);
     
     				if (!data) { // data is null or empty
     					console.warn('Request for Progress failed with empty data');
@@ -369,6 +369,9 @@
     	},
     
     	_refreshValue: function() {
+    		
+    		console.debug('refreshValue() this.options.value=' + this.options.value + ', this.value=' + this.value + ', this.currValue=' + this.currValue);
+    		
     		var value = this.options.value,
     			percentage = this._percentage(),
     			percentageStr = percentage.toFixed(0) + '%';

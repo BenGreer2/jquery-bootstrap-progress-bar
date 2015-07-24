@@ -348,7 +348,7 @@
     		this.percentEl.html(percentageStr);
     
     		this.element.attr({
-    			'aria-valuemax': self.options.max,
+    			'aria-valuemax': this.options.max,
     			'aria-valuenow': value
     		});
     
@@ -358,7 +358,7 @@
     			this.oldValue = value;
     		}
     
-    		if ( value > self.options.max ) { //complete when value > max. value == max is the last chunk
+    		if ( value > this.options.max ) { //complete when value > max. value == max is the last chunk
     			console.log('Value greater than max. Must be complete');
     			this._trigger( 'complete' );
     		}

@@ -166,7 +166,7 @@
 			this.progressStepsEl = $('<span class="progress-steps"></span> ').appendTo(this.progressBarEl);
 			this.valueEl = $('<span class="curr-step">' + this.options.value + '</span>').appendTo(this.progressStepsEl);
 			this.progressStepsEl.append('/');
-			this.maxEl = $('<span class="steps">' + self.options.max + '</span></span>').appendTo(this.progressStepsEl);
+			this.maxEl = $('<span class="steps">' + this.options.max + '</span></span>').appendTo(this.progressStepsEl);
 			this.progressBarEl.append('<span class="spacer"> </span>');
 			
 			this.percentEl = $('<span class="percent">' + this._percentage() + '</span> ').appendTo(this.progressBarEl);

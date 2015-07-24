@@ -145,6 +145,11 @@
 				return false;
 			}
 			// Constrain initial value
+			if(this.options.value) {
+				this.currValue = this.options.value;
+				delete this.options.value;
+			}
+			
 			this.oldValue = this.currValue = this._constrainedValue();
 			
 			//create elements
@@ -154,12 +159,12 @@
 			this.progressBarEl.append('<span class="spacer"> </span>');
 			
 			this.progressStepsEl = $('<span class="progress-steps"></span> ').appendTo(this.progressBarEl);
-			this.valueEl = $('<span class="curr-step"></span>').appendTo(this.progressStepsEl);
+			this.valueEl = $('<span class="curr-step">' + this.currValue + '</span>').appendTo(this.progressStepsEl);
 			this.progressStepsEl.append('/');
-			this.maxEl = $('<span class="steps"></span></span>').appendTo(this.progressStepsEl);
+			this.maxEl = $('<span class="steps">' + this.max + '</span></span>').appendTo(this.progressStepsEl);
 			this.progressBarEl.append('<span class="spacer"> </span>');
 			
-			this.percentEl = $('<span class="percent"></span> ').appendTo(this.progressBarEl);
+			this.percentEl = $('<span class="percent">' + this._percentage() + '</span> ').appendTo(this.progressBarEl);
 			
 			this.progressBarEl.append('<span class="spacer"> </span>');
 			

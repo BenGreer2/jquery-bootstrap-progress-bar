@@ -12,6 +12,18 @@
 	$.widget( 'ui.bootstrapAjaxProgressBar' , {
 		options: {
 			/**
+			* Maximum progress value
+			* @type {number}
+			*/
+			max : 100,
+			
+			/**
+			* Current progress value
+			* @type {number}
+			*/
+			value : 0,
+			
+			/**
 			* URL to perform GET requests on and expects to receive an object containing the status of the progressRequest
 			* @type {[type]}
 			*/
@@ -115,11 +127,9 @@
 
 		//from jquery progressbar
 		min: 0,
-		max : 100, 
-		currValue : 0,
 		
 		/*
-		* The previous value of currValue
+		* The previous value of self.options.value
 		*/
 		oldValue: null,
 		
@@ -144,13 +154,8 @@
 				this._destroy();
 				return false;
 			}
-			// Constrain initial value
-			if(this.options.value) {
-				this.currValue = this.options.value;
-				delete this.options.value;
-			}
 			
-			this.oldValue = this.currValue = this._constrainedValue();
+			this.oldValue = this.options.value = this._constrainedValue();
 			
 			//create elements
 			this.progressBarEl = $('<div class="progress-bar text-center nowrap" role="progressbar" data-fail-count="0" aria-valuenow="0" aria-valuemin="0" aria-valuemax="0" style="width: 0%;"></div>').appendTo(this.element);
@@ -159,9 +164,9 @@
 			this.progressBarEl.append('<span class="spacer"> </span>');
 			
 			this.progressStepsEl = $('<span class="progress-steps"></span> ').appendTo(this.progressBarEl);
-			this.valueEl = $('<span class="curr-step">' + this.currValue + '</span>').appendTo(this.progressStepsEl);
+			this.valueEl = $('<span class="curr-step">' + this.options.value + '</span>').appendTo(this.progressStepsEl);
 			this.progressStepsEl.append('/');
-			this.maxEl = $('<span class="steps">' + this.max + '</span></span>').appendTo(this.progressStepsEl);
+			this.maxEl = $('<span class="steps">' + self.options.max + '</span></span>').appendTo(this.progressStepsEl);
 			this.progressBarEl.append('<span class="spacer"> </span>');
 			
 			this.percentEl = $('<span class="percent">' + this._percentage() + '</span> ').appendTo(this.progressBarEl);
@@ -203,10 +208,10 @@
 		 */
 		value: function( newValue ) {
 			if ( newValue === undefined ) {
-				return this.currValue;
+				return this.options.value;
 			}
 			
-			this.currValue = this._constrainedValue( newValue );
+			this.options.value = this._constrainedValue( newValue );
 			this._refreshValue();
 		},
 		
@@ -216,7 +221,7 @@
 		 */
 		_constrainedValue: function( newValue ) {
 			if ( newValue === undefined ) {
-				newValue = this.currValue;
+				newValue = this.options.value;
 			}
 			
 			// sanitize value
@@ -229,12 +234,12 @@
 		
 		_setOptions: function( options ) {
 			// Ensure "value" option is set after other values (like max)
-			var value = this.currValue;
-			delete this.currValue;
+			var value = this.options.value;
+			delete this.options.value;
 			
 			this._super( options );
 			
-			this.currValue = this._constrainedValue( value );
+			this.options.value = this._constrainedValue( value );
 			this._refreshValue();
 		},
 		
@@ -294,9 +299,9 @@
     					isStopped = self.options.getIsStoppedFromResponse(data) === true,
     					isErrored = self.options.getIsErroredFromResponse(data) === true;
     
-    				if(max && self.max !== max) {
-    					self.max = max;
-    					self.maxEl.html(self.max);
+    				if(max && self.options.max !== max) {
+    					self.options.max = max;
+    					self.maxEl.html(self.options.max);
     				}
     
     				if(status) {
@@ -327,14 +332,14 @@
     	},
     
       /**
-       * Calculates the percentage complete by using currValue, min, and max
+       * Calculates the percentage complete by using this.options.value, min, and this.options.max
        */
     	_percentage: function() {
-    		return 100 * ( this.currValue - this.min ) / ( this.max - this.min );
+    		return 100 * ( this.options.value - this.min ) / ( this.options.max - this.min );
     	},
     
     	_refreshValue: function() {
-    		var value = this.currValue,
+    		var value = this.options.value,
     			percentage = this._percentage(),
     			percentageStr = percentage.toFixed(0) + '%';
     
@@ -343,7 +348,7 @@
     		this.percentEl.html(percentageStr);
     
     		this.element.attr({
-    			'aria-valuemax': this.max,
+    			'aria-valuemax': self.options.max,
     			'aria-valuenow': value
     		});
     
@@ -353,7 +358,7 @@
     			this.oldValue = value;
     		}
     
-    		if ( value > this.max ) { //complete when value > max. value == max is the last chunk
+    		if ( value > self.options.max ) { //complete when value > max. value == max is the last chunk
     			console.log('Value greater than max. Must be complete');
     			this._trigger( 'complete' );
     		}

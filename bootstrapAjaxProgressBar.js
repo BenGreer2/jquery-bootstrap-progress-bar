@@ -126,6 +126,9 @@
     	},
 
 		//from jquery progressbar
+		/**
+		 * Minimum value of the progress value
+		 */ 
 		min: 0,
 		
 		/*
@@ -139,14 +142,41 @@
 		 */ 
 		failCount : 0,
 		
-		progressContainerEl : null, //progress container element (.progress)
-		progressBarEl : null, //progress bar element (.progress-bar)
-		progressStatusEl : null, //progress status display element (.progress-status)
-		valueEl : null, //current value display element (.curr-step)
-		percentEl : null, //current value as percent element (.percent)
-		maxEl : null,  //element displaying maxinum value/the number of steps (.steps)
+		/**
+		 * .progress container element
+		 */ 
+		progressContainerEl : null,
 		
-		interval : null, //the interval object, so it can be stopped later
+		/**
+		 * .progress-bar element that has width matching % complete
+		 */ 
+		progressBarEl : null,
+		
+		/**
+		 * .progress-status element displaying the status
+		 */ 
+		progressStatusEl : null,
+		
+		/**
+		 * .curr-step element displaying the current step of the progress
+		 */ 
+		valueEl : null,
+		
+		/**
+		 * .steps element displaying the maximum number of steps
+		 */ 
+		maxEl : null,  //element displaying maxinum value/the number of steps (.steps)
+
+		/**
+		 * .percent element displaying the percent complete as value out of max
+		 */ 
+		percentEl : null,
+		
+		/**
+		 * JS interval object used to request updates. 
+		 * Stored so it can be stopped later
+		 */ 
+		interval : null,
 
 		_create: function() {
 			if(!this.options.progressRequestUrl) {
